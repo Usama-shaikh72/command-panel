@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Command Center</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+    <!-- Main Container -->
+    <div class="max-w-6xl mx-auto px-6 py-8">
+
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-10">
+
+            <div>
+                <h1 class="text-3xl font-bold">
+                    ⚡ Command Center
+                </h1>
+
+                <p class="text-slate-400 mt-1">
+                    Observability Stack Control Panel
+                </p>
+            </div>
+
+            <!-- Backend Status -->
+            <div
+                class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg"
+            >
+
+                <span
+                    class="w-2.5 h-2.5 bg-green-500 rounded-full"
+                ></span>
+
+                <span class="text-sm text-slate-300">
+                    Backend Online
+                </span>
+
+            </div>
+
+        </header>
+
+
+        <!-- Docker Commands -->
+        <section class="mb-8">
+
+            <h2 class="text-xl font-semibold mb-4">
+                Docker Stack
+            </h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+                <button
+                    class="command-btn"
+                    data-command="up"
+                >
+                    🚀
+                    <span>UP</span>
+                    <small>Start stack</small>
+                </button>
+
+                <button
+                    class="command-btn"
+                    data-command="down"
+                >
+                    🛑
+                    <span>DOWN</span>
+                    <small>Stop stack</small>
+                </button>
+
+                <button
+                    class="command-btn"
+                    data-command="restart"
+                >
+                    🔄
+                    <span>RESTART</span>
+                    <small>Rebuild stack</small>
+                </button>
+
+                <button
+                    class="command-btn"
+                    data-command="reset"
+                >
+                    🧹
+                    <span>RESET</span>
+                    <small>Wipe volumes</small>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Development Commands -->
+        <section class="mb-8">
+
+            <h2 class="text-xl font-semibold mb-4">
+                Development
+            </h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+                <button
+                    class="command-btn"
+                    data-command="test"
+                >
+                    🧪
+                    <span>TEST</span>
+                    <small>Run pytest</small>
+                </button>
+
+                <button
+                    class="command-btn"
+                    data-command="lint"
+                >
+                    🔍
+                    <span>LINT</span>
+                    <small>Check code</small>
+                </button>
+
+                <button
+                    class="command-btn"
+                    data-command="format"
+                >
+                    ✨
+                    <span>FORMAT</span>
+                    <small>Format code</small>
+                </button>
+
+                <button
+                    class="command-btn"
+                    data-command="check"
+                >
+                    ✅
+                    <span>CHECK</span>
+                    <small>Run CI checks</small>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Other Commands -->
+        <section class="mb-8">
+
+            <h2 class="text-xl font-semibold mb-4">
+                Other
+            </h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+                <button
+                    class="command-btn"
+                    data-command="logs"
+                >
+                    📋
+                    <span>LOGS</span>
+                    <small>View Docker logs</small>
+                </button>
+
+                <button
+                    class="command-btn"
+                    data-command="load-test"
+                >
+                    🔥
+                    <span>LOAD TEST</span>
+                    <small>Run k6 test</small>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Terminal -->
+        <section>
+
+            <div class="flex justify-between items-center mb-3">
+
+                <h2 class="text-xl font-semibold">
+                    Terminal
+                </h2>
+
+                <button
+                    id="clearTerminal"
+                    class="text-sm text-slate-400 hover:text-white"
+                >
+                    Clear
+                </button>
+
+            </div>
+
+
+            <div
+                class="bg-black border border-slate-800 rounded-xl overflow-hidden"
+            >
+
+                <!-- Terminal Header -->
+                <div
+                    class="flex items-center gap-2 px-4 py-3 bg-slate-900 border-b border-slate-800"
+                >
+
+                    <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+                    <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+                    <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+
+                    <span class="ml-3 text-xs text-slate-500">
+                        command-terminal
+                    </span>
+
+                </div>
+
+
+                <!-- Terminal Output -->
+                <div
+                    id="terminal"
+                    class="h-80 overflow-y-auto p-5 font-mono text-sm"
+                >
+
+                    <div class="text-green-400">
+                        $ Command Center initialized
+                    </div>
+
+                    <div class="text-slate-500 mt-1">
+                        Select a command above to get started.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- Custom styles -->
+    <style>
+
+        .command-btn {
+            @apply bg-slate-900 border border-slate-800 rounded-xl p-5;
+            @apply flex flex-col items-center justify-center gap-1;
+            @apply transition duration-200;
+            @apply hover:bg-slate-800 hover:border-slate-600;
+            @apply active:scale-95;
+        }
+
+        .command-btn span {
+            @apply font-semibold text-sm;
+        }
+
+        .command-btn small {
+            @apply text-xs text-slate-500;
+        }
+
+    </style>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

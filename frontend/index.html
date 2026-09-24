@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -9,41 +10,114 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Command Center</title>
+    <title>
+        Observability Command Panel
+    </title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
-<body class="bg-slate-950 text-white min-h-screen">
 
-    <!-- Main Container -->
-    <div class="max-w-6xl mx-auto px-6 py-8">
+<body class="min-h-screen bg-slate-950 text-slate-100">
+
+<div class="flex min-h-screen">
+
+
+    <!-- ========================================================= -->
+    <!-- SIDEBAR                                                   -->
+    <!-- ========================================================= -->
+
+    <aside
+        class="hidden w-64 border-r border-slate-800 bg-slate-950 p-6 md:block"
+    >
+
+        <div class="mb-10">
+
+            <h1 class="text-xl font-bold">
+                FastAPI
+            </h1>
+
+            <p class="mt-1 text-sm text-slate-500">
+                Observability
+            </p>
+
+        </div>
+
+
+        <nav class="space-y-2">
+
+            <button
+                id="dashboard-nav"
+                onclick="showSection('dashboard')"
+                class="w-full rounded-lg bg-slate-800 px-4 py-3 text-left text-sm font-medium"
+            >
+                Dashboard
+            </button>
+
+
+            <button
+                id="operations-nav"
+                onclick="showSection('operations')"
+                class="w-full rounded-lg px-4 py-3 text-left text-sm text-slate-400 hover:bg-slate-900"
+            >
+                Operations
+            </button>
+
+
+            <button
+                id="logs-nav"
+                onclick="showSection('logs')"
+                class="w-full rounded-lg px-4 py-3 text-left text-sm text-slate-400 hover:bg-slate-900"
+            >
+                Logs
+            </button>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- ========================================================= -->
+    <!-- MAIN                                                      -->
+    <!-- ========================================================= -->
+
+    <main class="flex-1">
+
 
         <!-- Header -->
-        <header class="flex items-center justify-between mb-10">
+
+        <header
+            class="flex items-center justify-between border-b border-slate-800 px-6 py-5"
+        >
 
             <div>
-                <h1 class="text-3xl font-bold">
-                    ⚡ Command Center
-                </h1>
 
-                <p class="text-slate-400 mt-1">
-                    Observability Stack Control Panel
+                <h2 class="text-lg font-semibold">
+                    Command Panel
+                </h2>
+
+                <p class="text-sm text-slate-500">
+                    Manage your observability stack
                 </p>
+
             </div>
 
-            <!-- Backend Status -->
-            <div
-                class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg"
-            >
+
+            <div class="flex items-center gap-2">
 
                 <span
-                    class="w-2.5 h-2.5 bg-green-500 rounded-full"
+                    id="connection-dot"
+                    class="h-2.5 w-2.5 rounded-full bg-slate-600"
                 ></span>
 
-                <span class="text-sm text-slate-300">
-                    Backend Online
+                <span
+                    id="connection-text"
+                    class="text-sm text-slate-400"
+                >
+                    Connecting...
                 </span>
 
             </div>
@@ -51,223 +125,446 @@
         </header>
 
 
-        <!-- Docker Commands -->
-        <section class="mb-8">
 
-            <h2 class="text-xl font-semibold mb-4">
-                Docker Stack
-            </h2>
+        <div class="p-6">
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 
-                <button
-                    class="command-btn"
-                    data-command="up"
+            <!-- ================================================= -->
+            <!-- DASHBOARD                                         -->
+            <!-- ================================================= -->
+
+            <section id="dashboard-section">
+
+
+                <div class="mb-8">
+
+                    <h3 class="text-2xl font-bold">
+                        Dashboard
+                    </h3>
+
+                    <p class="mt-1 text-sm text-slate-500">
+                        Current state of your Docker environment.
+                    </p>
+
+                </div>
+
+
+
+                <!-- Services -->
+
+                <div
+                    id="services"
+                    class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
                 >
-                    🚀
-                    <span>UP</span>
-                    <small>Start stack</small>
-                </button>
 
-                <button
-                    class="command-btn"
-                    data-command="down"
-                >
-                    🛑
-                    <span>DOWN</span>
-                    <small>Stop stack</small>
-                </button>
+                    <div
+                        class="rounded-xl border border-slate-800 bg-slate-900 p-5"
+                    >
 
-                <button
-                    class="command-btn"
-                    data-command="restart"
-                >
-                    🔄
-                    <span>RESTART</span>
-                    <small>Rebuild stack</small>
-                </button>
+                        <p class="text-sm text-slate-500">
+                            Docker
+                        </p>
 
-                <button
-                    class="command-btn"
-                    data-command="reset"
-                >
-                    🧹
-                    <span>RESET</span>
-                    <small>Wipe volumes</small>
-                </button>
+                        <p class="mt-2 text-lg font-semibold">
+                            Checking...
+                        </p>
 
-            </div>
+                    </div>
 
-        </section>
+                </div>
 
 
-        <!-- Development Commands -->
-        <section class="mb-8">
-
-            <h2 class="text-xl font-semibold mb-4">
-                Development
-            </h2>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-
-                <button
-                    class="command-btn"
-                    data-command="test"
-                >
-                    🧪
-                    <span>TEST</span>
-                    <small>Run pytest</small>
-                </button>
-
-                <button
-                    class="command-btn"
-                    data-command="lint"
-                >
-                    🔍
-                    <span>LINT</span>
-                    <small>Check code</small>
-                </button>
-
-                <button
-                    class="command-btn"
-                    data-command="format"
-                >
-                    ✨
-                    <span>FORMAT</span>
-                    <small>Format code</small>
-                </button>
-
-                <button
-                    class="command-btn"
-                    data-command="check"
-                >
-                    ✅
-                    <span>CHECK</span>
-                    <small>Run CI checks</small>
-                </button>
-
-            </div>
-
-        </section>
+            </section>
 
 
-        <!-- Other Commands -->
-        <section class="mb-8">
 
-            <h2 class="text-xl font-semibold mb-4">
-                Other
-            </h2>
+            <!-- ================================================= -->
+            <!-- OPERATIONS                                        -->
+            <!-- ================================================= -->
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-
-                <button
-                    class="command-btn"
-                    data-command="logs"
-                >
-                    📋
-                    <span>LOGS</span>
-                    <small>View Docker logs</small>
-                </button>
-
-                <button
-                    class="command-btn"
-                    data-command="load-test"
-                >
-                    🔥
-                    <span>LOAD TEST</span>
-                    <small>Run k6 test</small>
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- Terminal -->
-        <section>
-
-            <div class="flex justify-between items-center mb-3">
-
-                <h2 class="text-xl font-semibold">
-                    Terminal
-                </h2>
-
-                <button
-                    id="clearTerminal"
-                    class="text-sm text-slate-400 hover:text-white"
-                >
-                    Clear
-                </button>
-
-            </div>
-
-
-            <div
-                class="bg-black border border-slate-800 rounded-xl overflow-hidden"
+            <section
+                id="operations-section"
+                class="mt-10 hidden"
             >
 
-                <!-- Terminal Header -->
-                <div
-                    class="flex items-center gap-2 px-4 py-3 bg-slate-900 border-b border-slate-800"
-                >
+                <div class="mb-8">
 
-                    <span class="w-3 h-3 bg-red-500 rounded-full"></span>
-                    <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
-                    <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                    <h3 class="text-2xl font-bold">
+                        Operations
+                    </h3>
 
-                    <span class="ml-3 text-xs text-slate-500">
-                        command-terminal
-                    </span>
+                    <p class="mt-1 text-sm text-slate-500">
+                        Execute approved project commands.
+                    </p>
 
                 </div>
 
 
-                <!-- Terminal Output -->
-                <div
-                    id="terminal"
-                    class="h-80 overflow-y-auto p-5 font-mono text-sm"
-                >
 
-                    <div class="text-green-400">
-                        $ Command Center initialized
-                    </div>
+                <!-- Stack -->
 
-                    <div class="text-slate-500 mt-1">
-                        Select a command above to get started.
+                <div>
+
+                    <h4 class="mb-4 text-lg font-semibold">
+                        Stack
+                    </h4>
+
+
+                    <div
+                        class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+                    >
+
+
+                        <!-- START -->
+
+                        <button
+                            onclick="openPasswordDialog('up')"
+                            class="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-5 text-left transition hover:bg-emerald-500/20"
+                        >
+
+                            <div class="text-lg font-semibold text-emerald-400">
+                                Start
+                            </div>
+
+                            <div class="mt-1 text-sm text-slate-400">
+                                make up
+                            </div>
+
+                        </button>
+
+
+                        <!-- STOP -->
+
+                        <button
+                            onclick="executeCommand('down')"
+                            class="rounded-xl border border-slate-800 bg-slate-900 p-5 text-left transition hover:bg-slate-800"
+                        >
+
+                            <div class="text-lg font-semibold">
+                                Stop
+                            </div>
+
+                            <div class="mt-1 text-sm text-slate-400">
+                                make down
+                            </div>
+
+                        </button>
+
+
+                        <!-- RESTART -->
+
+                        <button
+                            onclick="openPasswordDialog('restart')"
+                            class="rounded-xl border border-slate-800 bg-slate-900 p-5 text-left transition hover:bg-slate-800"
+                        >
+
+                            <div class="text-lg font-semibold">
+                                Restart
+                            </div>
+
+                            <div class="mt-1 text-sm text-slate-400">
+                                make restart
+                            </div>
+
+                        </button>
+
+
+                        <!-- RESET -->
+
+                        <button
+                            onclick="openResetDialog()"
+                            class="rounded-xl border border-red-500/20 bg-red-500/10 p-5 text-left transition hover:bg-red-500/20"
+                        >
+
+                            <div class="text-lg font-semibold text-red-400">
+                                Reset
+                            </div>
+
+                            <div class="mt-1 text-sm text-slate-400">
+                                Delete containers and volumes
+                            </div>
+
+                        </button>
+
                     </div>
 
                 </div>
 
-            </div>
 
-        </section>
+
+                <!-- Development -->
+
+                <div class="mt-10">
+
+                    <h4 class="mb-4 text-lg font-semibold">
+                        Development
+                    </h4>
+
+
+                    <div
+                        class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5"
+                    >
+
+                        <button
+                            onclick="executeCommand('test')"
+                            class="rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-sm hover:bg-slate-800"
+                        >
+                            Test
+                        </button>
+
+
+                        <button
+                            onclick="executeCommand('lint')"
+                            class="rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-sm hover:bg-slate-800"
+                        >
+                            Lint
+                        </button>
+
+
+                        <button
+                            onclick="executeCommand('format')"
+                            class="rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-sm hover:bg-slate-800"
+                        >
+                            Format
+                        </button>
+
+
+                        <button
+                            onclick="executeCommand('check')"
+                            class="rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-sm hover:bg-slate-800"
+                        >
+                            Check
+                        </button>
+
+
+                        <button
+                            onclick="executeCommand('load-test')"
+                            class="rounded-lg border border-orange-500/20 bg-orange-500/10 px-4 py-3 text-sm text-orange-300 hover:bg-orange-500/20"
+                        >
+                            Load Test
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- ================================================= -->
+            <!-- LOGS                                               -->
+            <!-- ================================================= -->
+
+            <section
+                id="logs-section"
+                class="mt-10 hidden"
+            >
+
+                <div
+                    class="mb-4 flex items-center justify-between"
+                >
+
+                    <div>
+
+                        <h3 class="text-2xl font-bold">
+                            Live Logs
+                        </h3>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            Docker Compose logs
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        id="logs-button"
+                        onclick="toggleLogs()"
+                        class="rounded-lg bg-slate-800 px-4 py-2 text-sm hover:bg-slate-700"
+                    >
+                        Start Logs
+                    </button>
+
+                </div>
+
+
+                <pre
+                    id="logs"
+                    class="h-[500px] overflow-auto rounded-xl border border-slate-800 bg-black p-5 font-mono text-xs leading-5 text-slate-300"
+                ></pre>
+
+            </section>
+
+
+
+            <!-- ================================================= -->
+            <!-- OUTPUT                                             -->
+            <!-- ================================================= -->
+
+            <section class="mt-10">
+
+                <div
+                    class="mb-3 flex items-center justify-between"
+                >
+
+                    <h3 class="text-lg font-semibold">
+                        Command Output
+                    </h3>
+
+
+                    <button
+                        onclick="clearOutput()"
+                        class="text-sm text-slate-500 hover:text-slate-300"
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+
+                <pre
+                    id="output"
+                    class="min-h-32 overflow-auto rounded-xl border border-slate-800 bg-slate-900 p-5 font-mono text-sm text-slate-300"
+                >No command executed.</pre>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- ============================================================= -->
+<!-- PASSWORD DIALOG                                               -->
+<!-- ============================================================= -->
+
+<div
+    id="password-dialog"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4"
+>
+
+    <div
+        class="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl"
+    >
+
+        <h2
+            id="password-title"
+            class="text-xl font-bold"
+        >
+            Start Stack
+        </h2>
+
+
+        <p
+            class="mt-2 text-sm text-slate-400"
+        >
+            Enter the TimescaleDB password.
+        </p>
+
+
+        <label
+            class="mt-6 block text-sm font-medium"
+        >
+            Database password
+        </label>
+
+
+        <input
+            id="db-password"
+            type="password"
+            autocomplete="new-password"
+            class="mt-2 w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-emerald-500"
+        >
+
+
+        <div
+            class="mt-6 flex justify-end gap-3"
+        >
+
+            <button
+                onclick="closePasswordDialog()"
+                class="rounded-lg px-4 py-2 text-sm text-slate-400 hover:bg-slate-800"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                onclick="submitPasswordCommand()"
+                class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium hover:bg-emerald-500"
+            >
+                Continue
+            </button>
+
+        </div>
 
     </div>
 
-
-    <!-- Custom styles -->
-    <style>
-
-        .command-btn {
-            @apply bg-slate-900 border border-slate-800 rounded-xl p-5;
-            @apply flex flex-col items-center justify-center gap-1;
-            @apply transition duration-200;
-            @apply hover:bg-slate-800 hover:border-slate-600;
-            @apply active:scale-95;
-        }
-
-        .command-btn span {
-            @apply font-semibold text-sm;
-        }
-
-        .command-btn small {
-            @apply text-xs text-slate-500;
-        }
-
-    </style>
+</div>
 
 
-    <script src="app.js"></script>
+
+<!-- ============================================================= -->
+<!-- RESET DIALOG                                                   -->
+<!-- ============================================================= -->
+
+<div
+    id="reset-dialog"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4"
+>
+
+    <div
+        class="w-full max-w-md rounded-2xl border border-red-500/20 bg-slate-900 p-6 shadow-2xl"
+    >
+
+        <h2 class="text-xl font-bold text-red-400">
+            Reset Environment?
+        </h2>
+
+
+        <p class="mt-3 text-sm leading-6 text-slate-400">
+
+            This will stop containers and delete Docker
+            volumes. Database data stored in those volumes
+            will be removed.
+
+        </p>
+
+
+        <div
+            class="mt-6 flex justify-end gap-3"
+        >
+
+            <button
+                onclick="closeResetDialog()"
+                class="rounded-lg px-4 py-2 text-sm text-slate-400 hover:bg-slate-800"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                onclick="confirmReset()"
+                class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium hover:bg-red-500"
+            >
+                Reset Everything
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script src="/static/app.js"></script>
 
 </body>
 

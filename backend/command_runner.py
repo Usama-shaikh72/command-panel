@@ -14,7 +14,7 @@ from backend.commands import get_command
 # ├── frontend/
 # └── Makefile
 #
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path("/workspaces/fastapi-observability")
 
 
 async def run_make_command(
